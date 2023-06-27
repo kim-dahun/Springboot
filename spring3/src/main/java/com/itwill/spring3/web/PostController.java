@@ -27,7 +27,7 @@ public class PostController {
 
 	private final PostService postService;
 	
-	
+	// 페이지 목록 리스트
 	@GetMapping("")
 	public String post(Model model, @RequestParam int num) {
 		
@@ -38,13 +38,13 @@ public class PostController {
 			num=0;
 			
 		}
-		
+		// 버튼 만드는 메서드
 		List<PageDto> list2 = postService.makebtn();
 		
 		if(num>=list2.size()) {
 			num = list2.size()-1;
 		}
-		
+		// 페이지에 표시할 게시글 리스트 만드는 메서드
 		List<Post> list = postService.readpage(num);
 		
 		model.addAttribute("postlist",list);
