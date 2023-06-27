@@ -1,5 +1,6 @@
 package com.itwill.spring3.repository.post;
 
+import com.itwill.spring3.dto.PostUpdateDto;
 import com.itwill.spring3.repository.BaseTimeEntity;
 
 import jakarta.persistence.Column;
@@ -39,6 +40,15 @@ public class Post extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String author;
 	
+	// Post Entity의 Title과 Content를 수정해서 리턴하는 메서드:
+	public Post update(PostUpdateDto dto) {
+		
+		this.title = dto.getTitle();
+		this.content = dto.getContent();
+		
+		return this;
+		
+	}
 	
 	
 }

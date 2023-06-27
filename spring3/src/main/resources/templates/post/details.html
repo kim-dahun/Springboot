@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base_layout}">
+
+	<main layout:fragment="main">
+		
+		<div class="card my-2">
+		<div class="card-header text-center">
+			<h1>포스트 상세 페이지</h1>
+		</div>
+		<div class="card-body">
+			<form method="get" action="/post/modify">
+				<div class="my-2">
+					<label for="id" class="form-label">번호</label>
+					<input class="form-control" readonly="readonly" th:value = "${detail.id}" type="text" name="id" id="id" />
+				</div>
+				<div class="my-2">
+					<label class="form-label" for="title">제목</label>
+					<input th:with="title=${detail.title}" th:value="${title}" class="form-control" type="text" id="title" name="title" readonly required autofocus="autofocus"/>
+				</div>
+				<div class="my-2">
+					<label class="form-label" for="content">내용</label>
+					<textarea th:text="${detail.content}" class="form-control" rows="5" cols="10" id="content" required readonly name="content"></textarea>
+				</div>
+				<div class="my-2">
+					<label class="form-label" for="author">작성자</label>
+					<input th:with="author=${detail.author}" th:value="${author}" class="form-control" type="text" id="author" readonly="readonly" required name="author" />
+				</div>
+				<div class="my-2">
+					<label class="form-label" for="modifiedTime">최종 수정 시간</label>
+					<input th:value="${ #temporals.format(detail.modifiedTime, 'YYYY-MM-dd HH:mm:ss') }" name="modifiedTime" id="modifiedTime" class="form-control" readonly="readonly" type="text" />
+				</div>
+				
+				
+			</form>
+			<div class="my-2">
+					<a th:href="@{/post/modify?id={id}(id=${detail.id})}" class="form-control btn btn-outline-success">수정/삭제</a>
+			</div>
+		</div>
+		</div>
+	</main>
+
+</html>
