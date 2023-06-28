@@ -22,16 +22,17 @@ public class PostService {
 	// 생성자를 사용한 의존성 주입
 	private final PostRepository postRepository;
 	
-	public List<Post> readpage(int startnum){
+	public List<Post> readpage(int startnum, List<Post> list){
 		int realnum = startnum*10;
-		List<Post> list = postRepository.findByOrderByIdDesc();
+		log.info("realnum={}",realnum);
+		
 		List<Post> list2 = new ArrayList<>();
 		if(realnum+10>=list.size()) {
 			
 			for(int i = realnum; i<list.size(); i++) {
 				
 				list2.add(list.get(i));
-				
+				log.info("add = {}",list.get(i));
 			}
 			
 		} else {
@@ -40,7 +41,7 @@ public class PostService {
 			for(int i = realnum; i<realnum+10; i++) {
 				
 				list2.add(list.get(i));
-				
+				log.info("add = {}",list.get(i));
 			}
 			
 		}
@@ -103,17 +104,31 @@ public class PostService {
 		
 	}
 
-	public List<PageDto> makebtn() {
+	public List<PageDto> makebtn(int num, List<Post> list) {
 		// TODO Auto-generated method stub
-		List<Post> list = postRepository.findByOrderByIdDesc();
+		
 		
 		List<PageDto> list2 = new ArrayList<>();
+		int x = (num/10)*10+1;
+		if(x+10 > list.size()/10+1 && x <= list.size()/10+1) {
+			
+			for(int i = x ; i<=(list.size()/10)+1; i++) {
+				
+				list2.add(PageDto.builder().number(i).build());
+				
+			}
+			
+		} else if(x+10 <= list.size()/10+1 && x <= list.size()/10+1) {
+				
+				for(int i = x ; i<=x+9; i++) {
+				
+				list2.add(PageDto.builder().number(i).build());
+				
+			}
+			
+		} 
 		
-		for(int i = 1 ; i<=(list.size()/10)+1; i++) {
-			
-			list2.add(PageDto.builder().number(i).build());
-			
-		}
+		
 		
 		return list2;
 	}

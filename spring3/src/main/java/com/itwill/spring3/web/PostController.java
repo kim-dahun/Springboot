@@ -38,14 +38,18 @@ public class PostController {
 			num=0;
 			
 		}
-		// 버튼 만드는 메서드
-		List<PageDto> list2 = postService.makebtn();
+		List<Post> postlist = postService.read();
 		
-		if(num>=list2.size()) {
-			num = list2.size()-1;
+		if(num>postlist.size()/10) {
+			num = num-1;
 		}
+		
+		// 버튼 만드는 메서드
+		List<PageDto> list2 = postService.makebtn(num,postlist);
+		
+		
 		// 페이지에 표시할 게시글 리스트 만드는 메서드
-		List<Post> list = postService.readpage(num);
+		List<Post> list = postService.readpage(num,postlist);
 		
 		model.addAttribute("postlist",list);
 		model.addAttribute("btnlist", list2);
@@ -74,7 +78,7 @@ public class PostController {
 		log.info("Rows = {}",result);
 		
 		// DB 테이블 Insert 후 포스트 목록 페이지로 redirect 이동
-		return "redirect:/post";
+		return "redirect:/post?num=0";
 		
 	}
 	
@@ -105,7 +109,7 @@ public class PostController {
 		
 		postService.delete(id);
 		
-		return "redirect:/post";
+		return "redirect:/post?num=0";
 		
 	}
 }

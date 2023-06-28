@@ -40,11 +40,11 @@ public class PostRepositoryTest {
 		
 	}
 	
-//	@Test
+	@Test
 	public void testWrite() {
 		
 		
-		
+		for(int i = 0 ; i<300; i++) {
 		Post post = Post.builder().title("테스트").author("나다").content("테스트내용").build();
 		
 		// DB 테이블에 Insert
@@ -52,11 +52,11 @@ public class PostRepositoryTest {
 		//-> save 메서드는 테이블에 삽입할 Entity를 파라미터에 전달하면,
 		// 테이블에 저장된 Entity 객체를 리턴.
 		//-> Parameter에 전달된 Entity 필드들을 변경해서 Return.
-		
-		assertNotNull(postsave);
-		
-		log.info("{}",postsave);
-		log.info("crt = {}, mdt = {}",postsave.getCreatedTime(),postsave.getModifiedTime());
+		}
+//		assertNotNull(postsave);
+//		
+//		log.info("{}",postsave);
+//		log.info("crt = {}, mdt = {}",postsave.getCreatedTime(),postsave.getModifiedTime());
 	}
 	
 //	@Test
@@ -81,7 +81,7 @@ public class PostRepositoryTest {
 		
 	}
 	
-	@Test
+//	@Test
 	public void delete() {
 		
 		long count = postrepository.count(); // DB 테이블의 삭제 전 행의 갯수

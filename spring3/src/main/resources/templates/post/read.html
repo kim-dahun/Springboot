@@ -16,6 +16,7 @@
 					<th>제목</th>
 					<th>작성자</th>
 					<th>수정시간</th>
+					<th>내용</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -25,24 +26,29 @@
 					<td><a th:text="${list.title}" th:href="@{/post/details?id={id}(id=${list.id})}"></a></td>
 					<td th:text="${list.author}"></td>
 					<td th:text="${ #temporals.format(list.modifiedTime, 'YYYY-MM-dd HH:mm:ss') }"></td>
+					<td class="ellipsis" th:text="${list.content}"></td>
 					</tr>
 				
 				</tbody>
 			</table>
 		</div>
 		</div>
-		<div class="container-fluid">
+		<div class="container-fluid mx-2" style="display: flex; align-content: center; justify-content: center;">
 			<!-- 주요 변수 num / btn.number -->
-			<a th:href="@{/post?num={num}(num=${num}-1)}">뒤로</a>
-			<div th:each="btn : ${btnlist}" class="flex">
+			<div class="mx-1">
+			<a class="btn" th:href="@{/post?num={num}(num=${num}-1)}">◀</a>
+			</div>
+			<div th:each="btn : ${btnlist}" class="flex mx-1">
 			
-			<a th:href="@{/post?num={numbers}(numbers=${btn.number}-1)}"><button th:text="${btn.number}">
+			<a th:href="@{/post?num={numbers}(numbers=${btn.number}-1)}"><button class="btn" th:text="${btn.number}">
 			
 			
 			</button></a>
 			
 			</div>
-			<a th:href="@{/post?num={num}(num=${num}+1)}">앞으로</a>
+			<div class="mx-1">
+			<a class="btn" th:href="@{/post?num={num}(num=${num}+1)}">▶</a>
+			</div>
 		</div>
 	</main>
 
