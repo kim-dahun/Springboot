@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.itwill.spring3.dto.PageDto;
 import com.itwill.spring3.dto.PostCreateDto;
 import com.itwill.spring3.dto.PostDetailDto;
+import com.itwill.spring3.dto.PostSearchDto;
 import com.itwill.spring3.repository.post.Post;
+import com.itwill.spring3.repository.reply.Replies;
+import com.itwill.spring3.repository.reply.ReplyRepository;
 import com.itwill.spring3.service.PostService;
+import com.itwill.spring3.service.ReplyService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,13 +31,15 @@ public class PostController {
 
 	private final PostService postService;
 	
+	private final ReplyService replyservice;
+	
 	// 페이지 목록 리스트
 	@GetMapping("")
 	public String post(Model model, @RequestParam int num) {
 		
 		log.info("post(num={})",num);
 		
-		if(num<0) {
+		if(num<=0) {
 			
 			num=0;
 			
@@ -41,7 +47,7 @@ public class PostController {
 		List<Post> postlist = postService.read();
 		
 		if(num>postlist.size()/10) {
-			num = num-1;
+			num = postlist.size()/10;
 		}
 		
 		// 버튼 만드는 메서드
@@ -85,8 +91,14 @@ public class PostController {
 	@GetMapping({"/details", "/modify"})
 	public void details(@RequestParam long id, Model model) {
 		
+		log.info("id={}",id);
+		
 		PostDetailDto dto = postService.readById(id);
+		
+		List<Replies> list = replyservice.read(dto.toEntity());
+		int count = list.size();
 		model.addAttribute("detail", dto);
+		model.addAttribute("replyCount",count);
 	}
 	
 	
@@ -112,4 +124,40 @@ public class PostController {
 		return "redirect:/post?num=0";
 		
 	}
+	
+	
+	
+	@GetMapping("/search")
+	public String search(PostSearchDto dto, @RequestParam int num, Model model) {
+		
+		log.info("post(num={})", num);
+		
+		if(num<=0) {
+			
+			num=0;
+			
+		}
+		
+		List<Post> postlist = postService.findbyText(dto);
+		
+		if(num>postlist.size()/10) {
+			num = postlist.size()/10;
+		}
+		
+		// 버튼 만드는 메서드
+		List<PageDto> list2 = postService.makebtn(num,postlist);
+		
+		
+		// 페이지에 표시할 게시글 리스트 만드는 메서드
+		List<Post> list = postService.readpage(num,postlist);
+		
+		model.addAttribute("postlist",list);
+		model.addAttribute("btnlist", list2);
+		model.addAttribute("num",num);
+		model.addAttribute("dto",dto);
+		model.addAttribute("dtoget",dto.getSearchtext());
+		
+		return "/post/search";
+	}
+	
 }

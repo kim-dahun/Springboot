@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.itwill.spring3.dto.PageDto;
 import com.itwill.spring3.dto.PostCreateDto;
 import com.itwill.spring3.dto.PostDetailDto;
+import com.itwill.spring3.dto.PostSearchDto;
+import com.itwill.spring3.dto.PostUpdateDto;
 import com.itwill.spring3.repository.post.Post;
 import com.itwill.spring3.repository.post.PostRepository;
 
@@ -22,6 +25,7 @@ public class PostService {
 	// 생성자를 사용한 의존성 주입
 	private final PostRepository postRepository;
 	
+	@Transactional(readOnly = true)
 	public List<Post> readpage(int startnum, List<Post> list){
 		int realnum = startnum*10;
 		log.info("realnum={}",realnum);
@@ -81,15 +85,25 @@ public class PostService {
 		return PostDetailDto.fromEntity(post);
 	}
 
-
+	
+	@Transactional(readOnly = false) // (1)
 	public int update(PostDetailDto dto) {
-		// TODO Auto-generated method stub
-		int result = 0;
-		if(postRepository.saveAndFlush(dto.toEntity())!=null) {
-			
-			result = 1;
-			
-		}
+		
+		// (1) 메서드에 @Transactional annotation을 설정하고,
+		// (2) DB에서 Entity를 검색하고,
+		// (3) 검색한 Entity를 수정하면,
+		// 트랜잭션이 끝나는 시점에 DB Update가 자동으로 수행됨.
+		Post entity = postRepository.findById(dto.getId()).orElseThrow(); // (2)
+		entity.update(PostUpdateDto.builder().title(dto.getTitle()).content(dto.getContent()).build()); // (3)
+		// 변수가 직접적으로 수정되어야 하고, 객체 자체가 바뀌는 경우에는 Transaction이 동작하지 않음.
+		
+		
+		int result = 1;
+//		if(postRepository.saveAndFlush(dto.toEntity())!=null) {
+//			
+//			result = 1;
+//			
+//		}
 		
 		return result;
 	}
@@ -131,6 +145,27 @@ public class PostService {
 		
 		
 		return list2;
+	}
+
+	public List<Post> findbyText(PostSearchDto dto) {
+		// TODO Auto-generated method stub
+		int type = dto.getOptionlist();
+		
+		
+		switch(type) {
+		case 0:
+			return postRepository.findByTitleContainsIgnoreCaseOrderByIdDesc(dto.getSearchtext());
+		case 1:
+			return postRepository.findByContentContainsIgnoreCaseOrderByIdDesc(dto.getSearchtext());
+		case 2:
+			return postRepository.selectAllJPQL(dto.getSearchtext());
+		case 3:
+			return postRepository.findByAuthorContainsIgnoreCaseOrderByIdDesc(dto.getSearchtext());
+		default:
+			return postRepository.findByTitleContainsIgnoreCaseOrderByIdDesc(dto.getSearchtext());
+		}
+		
+		
 	}
 
 

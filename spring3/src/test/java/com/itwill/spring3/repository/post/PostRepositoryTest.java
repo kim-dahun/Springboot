@@ -2,7 +2,10 @@ package com.itwill.spring3.repository.post;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +81,12 @@ public class PostRepositoryTest {
 		// DB에 있는 Entity면 Update 수행.
 		postrepository.saveAndFlush(prePost);
 		
+		LinkedList<Integer> list = new LinkedList<>();
+		Map<Integer, Integer> map = new TreeMap<>();
+		
+		
+		
+		list.clear();
 		
 	}
 	

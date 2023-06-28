@@ -34,9 +34,8 @@
 		</div>
 		</div>
 		<div class="card-footer">
-			<form id="searchform" method="get" action="/post/search?num=0">
+			<form id="searchform" method="get" th:action="@{/post/search?num=0}">
 			<div class="row" style="display: flex; justify-content: center; align-content: center;">
-			<input class="d-none" type="number" name="num" id="num" value="0" />
 				<div class="col-3">
 					<select class="form-control" name="optionlist" id="optionlist">
 						<option selected="selected" value="0">제목</option>
@@ -45,6 +44,7 @@
 						<option value="3">작성자</option>
 					</select>
 				</div>
+				<input class="d-none" type="number" name="num" id="num" value="0" />
 				<div class="col-7">
 					<input class="form-control" type="text" placeholder="검색어 입력" id="searchtext" name="searchtext" />
 				</div>
@@ -60,18 +60,18 @@
 		<div class="container-fluid mx-2" style="display: flex; align-content: center; justify-content: center;">
 			<!-- 주요 변수 num / btn.number -->
 			<div class="mx-1">
-			<a class="btn" th:href="@{/post?num={num}(num=${num}-10)}">◀</a>
+			<a class="btn" th:href="@{/post/search?num={num}&optionlist={options}&searchtext={searches} (num=${num}-1, options=${dto.optionlist}, searches=${dto.searchtext})}">◀</a>
 			</div>
 			<div th:each="btn : ${btnlist}" class="flex mx-1">
 			
-			<a th:href="@{/post?num={numbers}(numbers=${btn.number}-1)}"><button class="btn" th:text="${btn.number}">
+			<a th:href="@{/post/search?num={num}&optionlist={options}&searchtext={searches} (num=${btn.number}-1, options=${dto.optionlist}, searches=${dto.searchtext})}"><button class="btn" th:text="${btn.number}">
 			
 			
 			</button></a>
 			
 			</div>
 			<div class="mx-1">
-			<a class="btn" th:href="@{/post?num={num}(num=${num}+10)}">▶</a>
+			<a class="btn" th:href="@{/post/search?num={num}&optionlist={options}&searchtext={searches} (num=${num}+1, options=${dto.optionlist}, searches=${dto.searchtext})}">▶</a>
 			</div>
 		</div>
 	</main>

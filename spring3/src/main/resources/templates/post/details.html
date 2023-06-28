@@ -39,6 +39,36 @@
 			</div>
 		</div>
 		</div>
+		
+		<div class="my-2 card">
+			<div class="card-header">
+				<span>댓글</span>
+				<span id="replyCount" th:text="${replyCount}"></span>개
+				<button class="btn" id="btnToggleReply"
+                        data-toggle="toggle-off">
+                        <img id="toggleBtnIcon"
+                            th:src="@{/images/toggle-off.svg}"
+                            alt="toggle-off" width="32" />
+
+
+                    </button>
+			</div>
+			<div class="card-body">
+				<div id="replyList">
+					
+				</div>
+			</div>
+			<div class="card-footer">
+			
+			</div>
+		</div>
+		
 	</main>
+	
+	
+	<th:block layout:fragment="myscripts">
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	</th:block>
+
 
 </html>
