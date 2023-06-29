@@ -2,6 +2,7 @@ package com.itwill.spring3.repository.reply;
 
 
 
+import com.itwill.spring3.dto.ReplyUpdateDto;
 import com.itwill.spring3.repository.BaseTimeEntity;
 import com.itwill.spring3.repository.post.Post;
 
@@ -37,7 +38,7 @@ public class Replies extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REPLIES_SEQ_GEN")
 	private long id; // Primary key
 	
-	@ManyToOne(fetch = FetchType.LAZY) // EAGER(기본값) : 즉시로딩, LAZY: 지연로딩
+	@ManyToOne(fetch = FetchType.EAGER) // EAGER(기본값) : 즉시로딩, LAZY: 지연로딩
 	private Post post; // Foreign Key, 관계를 맺고 있는 Entity
 	
 	@Column(nullable = false)
@@ -45,5 +46,12 @@ public class Replies extends BaseTimeEntity {
 	
 	@Column(nullable = false)
 	private String writer;
+	
+	public void update(ReplyUpdateDto dto) {
+		
+		replyText = dto.getReplyText();
+		
+		
+	}
 	
 }

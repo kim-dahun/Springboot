@@ -3,73 +3,101 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/base_layout}">
 
-	<main layout:fragment="main">
-		
-		<div class="card my-2">
+<main layout:fragment="main">
+
+	<div class="card my-2">
 		<div class="card-header text-center">
 			<h1>포스트 상세 페이지</h1>
 		</div>
 		<div class="card-body">
 			<form method="get" action="/post/modify">
 				<div class="my-2">
-					<label for="id" class="form-label">번호</label>
-					<input class="form-control" readonly="readonly" th:value = "${detail.id}" type="text" name="id" id="id" />
+					<label for="id" class="form-label">번호</label> <input
+						class="form-control" readonly="readonly" th:value="${detail.id}"
+						type="text" name="id" id="id" />
 				</div>
 				<div class="my-2">
-					<label class="form-label" for="title">제목</label>
-					<input th:with="title=${detail.title}" th:value="${title}" class="form-control" type="text" id="title" name="title" readonly required autofocus="autofocus"/>
+					<label class="form-label" for="title">제목</label> <input
+						th:with="title=${detail.title}" th:value="${title}"
+						class="form-control" type="text" id="title" name="title" readonly
+						required autofocus="autofocus" />
 				</div>
 				<div class="my-2">
 					<label class="form-label" for="content">내용</label>
-					<textarea th:text="${detail.content}" class="form-control" rows="5" cols="10" id="content" required readonly name="content"></textarea>
+					<textarea th:text="${detail.content}" class="form-control" rows="5"
+						cols="10" id="content" required readonly name="content"></textarea>
 				</div>
 				<div class="my-2">
-					<label class="form-label" for="author">작성자</label>
-					<input th:with="author=${detail.author}" th:value="${author}" class="form-control" type="text" id="author" readonly="readonly" required name="author" />
+					<label class="form-label" for="author">작성자</label> <input
+						th:with="author=${detail.author}" th:value="${author}"
+						class="form-control" type="text" id="author" readonly="readonly"
+						required name="author" />
 				</div>
 				<div class="my-2">
-					<label class="form-label" for="modifiedTime">최종 수정 시간</label>
-					<input th:value="${ #temporals.format(detail.modifiedTime, 'YYYY-MM-dd HH:mm:ss') }" name="modifiedTime" id="modifiedTime" class="form-control" readonly="readonly" type="text" />
+					<label class="form-label" for="modifiedTime">최종 수정 시간</label> <input
+						th:value="${ #temporals.format(detail.modifiedTime, 'YYYY-MM-dd HH:mm:ss') }"
+						name="modifiedTime" id="modifiedTime" class="form-control"
+						readonly="readonly" type="text" />
 				</div>
-				
-				
+
+
 			</form>
 			<div class="my-2">
-					<a th:href="@{/post/modify?id={id}(id=${detail.id})}" class="form-control btn btn-outline-success">수정/삭제</a>
+				<a th:href="@{/post/modify?id={id}(id=${detail.id})}"
+					class="form-control btn btn-outline-success">수정/삭제</a>
 			</div>
 		</div>
+	</div>
+
+	<div class="my-2 card">
+		<div class="card-header">
+			<span>댓글</span> <span id="replyCount" th:text="${replyCount}"></span>개
+			<button data-bs-toggle="collapse" aria-controls="replylist" aria-expanded="false" class="btn" id="btnToggleReply" data-toggle="toggle-off">
+				<img id="toggleBtnIcon" th:src="@{/images/toggle-off.svg}"
+					alt="toggle-off" width="32" />
+
+
+			</button>
 		</div>
-		
-		<div class="my-2 card">
-			<div class="card-header">
-				<span>댓글</span>
-				<span id="replyCount" th:text="${replyCount}"></span>개
-				<button class="btn" id="btnToggleReply"
-                        data-toggle="toggle-off">
-                        <img id="toggleBtnIcon"
-                            th:src="@{/images/toggle-off.svg}"
-                            alt="toggle-off" width="32" />
-
-
-                    </button>
-			</div>
-			<div class="card-body">
-				<div id="replyList">
+		<div class="card-body collapse" id="replyToggleDiv">
+			<div class="my-2 row">
+				<label class="form-label">댓글 입력</label>
+				<div class="col-10">
+					<textarea class="form-control" id="replyText" placeholder="댓글 내용 입력"></textarea>
 					
 				</div>
+				<div class="col-2">
+					<button id="btnReplyCreate" class="btn form-control btn-outline-success">등록</button>
+				</div>
 			</div>
-			<div class="card-footer">
 			
+			<div class="my-2">
+			<div id="replylist">
+				<div>
+					<div class="row my-2 form">
+						
+					</div>
+				
+				</div>
+				</div>
+				<div>
+					<button id="btnaddview" class="btn form-control">더보기</button>
+				</div>
 			</div>
+			
+		</div> 
+		<div class="card-footer">
+			
 		</div>
-		
-	</main>
-	
-	
-	<th:block layout:fragment="myscripts">
-		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-		<script th:src="@{/js/reply/replies.js}"></script>
-	</th:block>
+	</div>
+
+</main>
+
+
+<th:block layout:fragment="myscripts">
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script th:src="@{/js/reply/replies.js}"></script>
+</th:block>
 
 
 </html>

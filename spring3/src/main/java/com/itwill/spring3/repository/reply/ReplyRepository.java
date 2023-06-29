@@ -10,4 +10,6 @@ public interface ReplyRepository extends JpaRepository<Replies, Long> {
 
 	List<Replies> findByPostOrderById(Post post);
 	
+	Long countByPost(Post post);
+	
 }

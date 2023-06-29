@@ -96,9 +96,10 @@ public class PostController {
 		PostDetailDto dto = postService.readById(id);
 		
 		List<Replies> list = replyservice.read(dto.toEntity());
-		int count = list.size();
+		long count = replyservice.countByPost(dto.toEntity());
 		model.addAttribute("detail", dto);
 		model.addAttribute("replyCount",count);
+		model.addAttribute("replylist",list);
 	}
 	
 	
