@@ -43,8 +43,10 @@
 
 			</form>
 			<div class="my-2">
+			<div th:if="${ #authentication.name } == ${ detail.author }">
 				<a th:href="@{/post/modify?id={id}(id=${detail.id})}"
 					class="form-control btn btn-outline-success">수정/삭제</a>
+			</div>
 			</div>
 		</div>
 	</div>
@@ -52,7 +54,9 @@
 	<div class="my-2 card">
 		<div class="card-header">
 			<span>댓글</span> <span id="replyCount" th:text="${replyCount}"></span>개
-			<button data-bs-toggle="collapse" aria-controls="replylist" aria-expanded="false" class="btn" id="btnToggleReply" data-toggle="toggle-off">
+			<button data-bs-toggle="collapse" aria-controls="replylist"
+				aria-expanded="false" class="btn" id="btnToggleReply"
+				data-toggle="toggle-off">
 				<img id="toggleBtnIcon" th:src="@{/images/toggle-off.svg}"
 					alt="toggle-off" width="32" />
 
@@ -60,35 +64,36 @@
 			</button>
 		</div>
 		<div class="card-body collapse" id="replyToggleDiv">
+			<div>
+				<input type="text" th:value="${ #authentication.name }" class="form-control" id="authName" readonly="readonly" />
+			</div>
 			<div class="my-2 row">
 				<label class="form-label">댓글 입력</label>
 				<div class="col-10">
-					<textarea class="form-control" id="replyText" placeholder="댓글 내용 입력"></textarea>
-					
+					<textarea class="form-control" id="replyText"
+						placeholder="댓글 내용 입력"></textarea>
+
 				</div>
 				<div class="col-2">
-					<button id="btnReplyCreate" class="btn form-control btn-outline-success">등록</button>
+					<button id="btnReplyCreate"
+						class="btn form-control btn-outline-success">등록</button>
 				</div>
 			</div>
-			
+
 			<div class="my-2">
-			<div id="replylist">
-				<div>
-					<div class="row my-2 form">
-						
+				<div id="replylist">
+					<div>
+						<div class="row my-2 form"></div>
+
 					</div>
-				
-				</div>
 				</div>
 				<div>
 					<button id="btnaddview" class="btn form-control">더보기</button>
 				</div>
 			</div>
-			
-		</div> 
-		<div class="card-footer">
-			
+
 		</div>
+		<div class="card-footer"></div>
 	</div>
 
 </main>

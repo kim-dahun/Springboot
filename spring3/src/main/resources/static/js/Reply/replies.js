@@ -15,7 +15,7 @@
 	 let countRe = 1;
 	 const btnaddview = document.querySelector('button#btnaddview');
 	 let Modifycheck = false;
-	 
+	 const authName = document.querySelector('input#authName');
 	 btnaddview.addEventListener('click',()=>{
 		 
 		 if(countRe*3 )
@@ -107,7 +107,7 @@
 			 let date = new Date(x.modifiedTime);
 			 
 			 let datetimes = date.toLocaleString();
-			 
+			 if(authName.value==x.writer){
 			 html += `<div id="a${x.id}" class="my-2 form row">
 			 			
 						<div class="col-10">
@@ -123,7 +123,24 @@
 					</div>
 					</div>
 					`;
-			 
+			 } else {
+				 
+				 html += `<div id="a${x.id}" class="my-2 form row">
+			 			
+						<div class="col-10">
+						<input readonly="readonly" class="form-control" d-pid="${x.post.id}" d-id="${x.id}" type="text" id="${x.id}" name="${x.id}" value="작성자 : ${x.writer} / 최종 수정 시간 : ${datetimes}" />
+						
+						
+						<textarea style="height: 85px;" readonly="readonly" class="form-control">${x.replyText}</textarea>
+						
+						</div>
+						<div class="my-1 col-2">
+						
+					</div>
+					</div>
+					`;
+				 
+			 }
 		 }
 		 replylist.innerHTML = html;
 		 const btnUpdate = document.querySelectorAll('button.btnUpdate');
@@ -159,7 +176,7 @@
 			 
 		 }
 		 
-		 let userid = '아직은 테스트';
+		 let userid = authName.value;
 		 let postid = id.value;
 		 const data = {
 			 
@@ -261,6 +278,7 @@
 						
 						</div>
 						<div class="my-1 col-2">
+						
 						<button data-id="${x.id}" id="btnCancel" class="form-control btnCancel btn btn-outline-danger">수정 취소</button>
 						<button data-id="${x.id}" id="btnModify" class="form-control btnModify btn btn-outline-success">수정 완료</button>
 					</div>

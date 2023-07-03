@@ -3,39 +3,42 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/base_layout}">
 
-	<main layout:fragment="main">
+<main layout:fragment="main">
 	<div class="my-2 card">
 		<div>
-		<h1>포스트 목록 페이지</h1>
+			<h1>포스트 목록 페이지</h1>
 		</div>
 		<div class="card-body">
 			<table class="table table-hover">
 				<thead>
-				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>수정시간</th>
-					<th>내용</th>
-				</tr>
+					<tr>
+						<th>번호</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>수정시간</th>
+						<th>내용</th>
+					</tr>
 				</thead>
 				<tbody>
-				
+
 					<tr th:each="list : ${postlist}">
-					<td th:text="${list.id}"></td>
-					<td><a th:text="${list.title}" th:href="@{/post/details?id={id}(id=${list.id})}"></a></td>
-					<td th:text="${list.author}"></td>
-					<td th:text="${ #temporals.format(list.modifiedTime, 'YYYY-MM-dd HH:mm:ss') }"></td>
-					<td class="ellipsis" th:text="${list.content}"></td>
+						<td th:text="${list.id}"></td>
+						<td><a th:text="${list.title}"
+							th:href="@{/post/details?id={id}(id=${list.id})}"></a></td>
+						<td th:text="${list.author}"></td>
+						<td
+							th:text="${ #temporals.format(list.modifiedTime, 'YYYY-MM-dd HH:mm:ss') }"></td>
+						<td class="ellipsis" th:text="${list.content}"></td>
 					</tr>
-				
+
 				</tbody>
 			</table>
 		</div>
-		</div>
-		<div class="card-footer">
-			<form id="searchform" method="get" th:action="@{/post/search?num=0}">
-			<div class="row" style="display: flex; justify-content: center; align-content: center;">
+	</div>
+	<div class="card-footer">
+		<form id="searchform" method="get" th:action="@{/post/search?num=0}">
+			<div class="row"
+				style="display: flex; justify-content: center; align-content: center;">
 				<div class="col-3">
 					<select class="form-control" name="optionlist" id="optionlist">
 						<option selected="selected" value="0">제목</option>
@@ -46,34 +49,39 @@
 				</div>
 				<input class="d-none" type="number" name="num" id="num" value="0" />
 				<div class="col-7">
-					<input class="form-control" type="text" placeholder="검색어 입력" id="searchtext" name="searchtext" />
+					<input class="form-control" type="text" placeholder="검색어 입력"
+						id="searchtext" name="searchtext" />
 				</div>
 				<div class="col-1">
-					<button class="form-control btn btn-outline-dark" id="btnSearch" name=btnSearch>검색</button>
+					<button class="form-control btn btn-outline-dark" id="btnSearch"
+						name=btnSearch>검색</button>
 				</div>
 				<div class="col-1">
-					<a class="form-control btn btn-outline-dark" th:href="@{/post?num=0}">초기화</a>
+					<a class="form-control btn btn-outline-dark"
+						th:href="@{/post?num=0}">초기화</a>
 				</div>
 			</div>
-			</form>
+		</form>
+	</div>
+	<div class="container-fluid mx-2"
+		style="display: flex; align-content: center; justify-content: center;">
+		<!-- 주요 변수 num / btn.number -->
+		<div class="mx-1">
+			<a class="btn"
+				th:href="@{/post/search?num={num}&optionlist={options}&searchtext={searches} (num=${num}-1, options=${dto.optionlist}, searches=${dto.searchtext})}">◀</a>
 		</div>
-		<div class="container-fluid mx-2" style="display: flex; align-content: center; justify-content: center;">
-			<!-- 주요 변수 num / btn.number -->
-			<div class="mx-1">
-			<a class="btn" th:href="@{/post/search?num={num}&optionlist={options}&searchtext={searches} (num=${num}-1, options=${dto.optionlist}, searches=${dto.searchtext})}">◀</a>
-			</div>
-			<div th:each="btn : ${btnlist}" class="flex mx-1">
-			
-			<a th:href="@{/post/search?num={num}&optionlist={options}&searchtext={searches} (num=${btn.number}-1, options=${dto.optionlist}, searches=${dto.searchtext})}"><button class="btn" th:text="${btn.number}">
-			
-			
-			</button></a>
-			
-			</div>
-			<div class="mx-1">
-			<a class="btn" th:href="@{/post/search?num={num}&optionlist={options}&searchtext={searches} (num=${num}+1, options=${dto.optionlist}, searches=${dto.searchtext})}">▶</a>
-			</div>
+		<div th:each="btn : ${btnlist}" class="flex mx-1">
+
+			<a
+				th:href="@{/post/search?num={num}&optionlist={options}&searchtext={searches} (num=${btn.number}-1, options=${dto.optionlist}, searches=${dto.searchtext})}"><button
+					class="btn" th:text="${btn.number}"></button></a>
+
 		</div>
-	</main>
+		<div class="mx-1">
+			<a class="btn"
+				th:href="@{/post/search?num={num}&optionlist={options}&searchtext={searches} (num=${num}+1, options=${dto.optionlist}, searches=${dto.searchtext})}">▶</a>
+		</div>
+	</div>
+</main>
 
 </html>
