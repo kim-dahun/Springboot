@@ -2,6 +2,7 @@ package com.itwill.spring3.web;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,7 +65,7 @@ public class PostController {
 		
 	}
 	
-	
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/create")
 	public void create() {
 		
@@ -74,6 +75,7 @@ public class PostController {
 		
 	}
 	
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/create")
 	public String create(PostCreateDto dto) {
 		
@@ -87,7 +89,7 @@ public class PostController {
 		return "redirect:/post?num=0";
 		
 	}
-	
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping({"/details", "/modify"})
 	public void details(@RequestParam long id, Model model) {
 		
@@ -103,7 +105,7 @@ public class PostController {
 	}
 	
 	
-	
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/modify")
 	public String modify(PostDetailDto dto) {
 		log.info("modify({})",dto);
@@ -114,7 +116,7 @@ public class PostController {
 		
 		return "redirect:/post/details?id="+dto.getId(); 
 	}
-	
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/delete")
 	public String delete(@RequestParam long id) {
 		
